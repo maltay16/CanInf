@@ -8,5 +8,6 @@ The priority for this mod is to add more variety to high ante runs by introducin
 | ------------| ----------------------------------------------------------- |
 | Mega Scizor | Destroys all jokers to its right to gain exponential xmult. |
 
-Disclaimer
-The original Scyther line isn't removed, Scyther and Scizor can't evolve into Mega Scizor if they are the original versions.
+##Current issues / Disclaimer
+The original scyther line isn't removed, scyther and scizor cant evolve into mega scizor if they are the original versions.
+
