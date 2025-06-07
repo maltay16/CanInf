@@ -10,5 +10,3 @@ The priority for this mod is to add more variety to high ante runs by introducin
 
 ##Current issues / Disclaimer
 The original Scyther line isn't removed, Scyther and Scizor can't evolve into Mega Scizor if they are the original versions.
-Getting the shiny versions of mod jokers causes crash.
-
