@@ -508,16 +508,21 @@ local mega_absol = {
   soul_pos = {x = 3, y = 4},
 
   config = {
-    extra = { scry = 2, xmult_multi = 1.5}
+    extra = { scry = 2, scry_plus= 0, xmult_multi = 1.5 }
   },
 
   loc_vars = function(self, info_queue, center)
     type_tooltip(self, info_queue, center)
     info_queue[#info_queue + 1] = {set = 'Other', key = 'scry_cards'}
+
+    local base_scry = center.ability.extra.scry or 0
+    local scry_plus = self:count_other_dark_jokers(center) or 0
+
     return {
       vars = {
-        center.ability.extra.scry,
-        center.ability.extra.xmult_multi
+        base_scry,                          -- #1 base scry
+        center.ability.extra.xmult_multi,  -- #2 multiplier
+        scry_plus                      -- #3 other dark jokers count
       }
     }
   end,
@@ -530,17 +535,33 @@ local mega_absol = {
   blueprint_compat = true,
   eternal_compat = false,
 
-  calculate = function(self, card, context)
-    if not context.end_of_round and context.scoring_hand then
-      if context.individual and context.cardarea == G.scry_view and not context.other_card.debuff then
-          return {
-            xmult = card.ability.extra.xmult_multi,
-            card = card
-          }
+  count_other_dark_jokers = function(self, exclude_card)
+    local count = 0
+    local all_dark_jokers = find_pokemon_type("Dark")
+    for _, j in ipairs(all_dark_jokers) do
+      if j ~= exclude_card then
+        count = count + 1
       end
     end
+    return count
   end,
-  
+
+  calculate = function(self, card, context)
+	  if not context.end_of_round and context.scoring_hand then
+		if context.individual and context.cardarea == G.scry_view and not context.other_card.debuff then
+		  local bonus_count = self:count_other_dark_jokers(card)
+		  local mult_base = card.ability.extra.xmult_multi or 1.5
+		  local exponent = (bonus_count > 0) and bonus_count or 1
+		  local final_mult = mult_base ^ exponent
+
+		  return {
+			xmult = final_mult,
+			card = card
+		  }
+		end
+	  end
+	end,
+
   add_to_deck = function(self, card, from_debuff)
     G.GAME.scry_amount = (G.GAME.scry_amount or 0) + card.ability.extra.scry
   end,
@@ -548,7 +569,10 @@ local mega_absol = {
   remove_from_deck = function(self, card, from_debuff)
     G.GAME.scry_amount = math.max(0, (G.GAME.scry_amount or 0) - card.ability.extra.scry)
   end,
+
+
 }
+
 
 -- Export the joker
 local list = {

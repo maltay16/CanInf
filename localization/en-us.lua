@@ -28,15 +28,17 @@ return {
 			},
 			
 			j_caninf_mega_absol = {
-				name = "Mega Absol",
-				text = {
-					"{C:purple}+#1# Foresight",
-					"{C:attention}Foreseen{} cards",
-					" give {X:mult,C:white}X#2#{} Mult",
-				}
+			  name = "Mega Absol",
+			  text = {
+				"{C:purple}+#1# Foresight",
+				"{C:attention}Foreseen{} cards",
+				"give {X:mult,C:white}X#2#{} Mult.",
+				"{C:purple}xMult{} for each other",
+				"{C:Dark}Dark{} Joker you have.",
+				"{C:inactive, s:0.8}(Currently #3# additional {C:purple, s:0.8}Foresight{}{C:inactive, s:0.8})",
+			  }
 			},
-			
-			
+						
 
 			j_caninf_scyther = {
                 name = 'Scyther',      
@@ -80,9 +82,9 @@ return {
 							"multiply this Joker's {X:mult,C:white}X{} Mult by {X:mult,C:white}X#4#{}" ,
 							"for each Joker destroyed .",
 							"{X:mult,C:white}X{} Mult increased to {X:mult,C:white}X#5#{} if the destroyed Joker was {C:dark_edition}Negative{}.",
-							"{C:inactive}(After destroying 10 {C:dark_edition}Negative{}{C:inactive} Jokers, this Joker becomes {C:dark_edition}Negative{}.){}",
-							"{C:inactive}(Currently {X:mult,C:white}X#3#{}{C:inactive} Mult)",
-							"{C:inactive}(Total destroyed: #1#{}{C:inactive}, {C:dark_edition}Negative{}{C:inactive} destroyed: #2#){}"
+							"{C:inactive, s:0.8}(After destroying 10 {C:dark_edition, s:0.8}Negative{}{C:inactive, s:0.8} Jokers, this Joker becomes {C:dark_edition, s:0.8}Negative{}.){}",
+							"{C:inactive, s:0.8}(Currently {X:mult,C:white, s:0.8}X#3#{}{C:inactive, s:0.8, s:0.8} Mult)",
+							"{C:inactive, s:0.8}(Total destroyed: #1#{}{C:inactive, s:0.8}, {C:dark_edition, s:0.8}Negative{}{C:inactive, s:0.8} destroyed: #2#){}"
 						}
             }
         },
