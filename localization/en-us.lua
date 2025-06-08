@@ -15,6 +15,7 @@ return {
 				text = {
 					"{C:purple}+#1# Foresight",
 					"Retrigger first {C:attention}Foreseen{} card {C:attention}#2#{} time",
+					"{C:inactive,s:0.8}(Evolves with a {C:attention,s:0.8}Water Stone{C:inactive,s:0.8})",
 				}
 			},
 			
@@ -32,10 +33,10 @@ return {
 			  text = {
 				"{C:purple}+#1# Foresight",
 				"{C:attention}Foreseen{} cards",
-				"give {X:mult,C:white}X#2#{} Mult.",
-				"{C:purple}xMult{} for each other",
-				"{C:Dark}Dark{} Joker you have.",
-				"{C:inactive, s:0.8}(Currently #3# additional {C:purple, s:0.8}Foresight{}{C:inactive, s:0.8})",
+				"give {X:mult,C:white}X#2#{} Mult",
+				"plus {X:mult,C:white}X#4#{} Mult{} for each other",
+				"{X:dark,C:white}Dark{} Joker you have.",
+				"{C:inactive}(Currently {X:mult,C:white}X#3#{C:inactive} Mult)",
 			  }
 			},
 						

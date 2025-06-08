@@ -508,7 +508,7 @@ local mega_absol = {
   soul_pos = {x = 3, y = 4},
 
   config = {
-    extra = { scry = 2, scry_plus= 0, xmult_multi = 1.5 }
+    extra = { scry = 2, scry_plus= 0, xmult_multi = 1.5 , Xmult_multi2=0.25 }
   },
 
   loc_vars = function(self, info_queue, center)
@@ -517,12 +517,15 @@ local mega_absol = {
 
     local base_scry = center.ability.extra.scry or 0
     local scry_plus = self:count_other_dark_jokers(center) or 0
+	local bonus_mult =  center.ability.extra.Xmult_multi2*scry_plus
 
     return {
       vars = {
         base_scry,                          -- #1 base scry
         center.ability.extra.xmult_multi,  -- #2 multiplier
-        scry_plus                      -- #3 other dark jokers count
+        bonus_mult,                      -- #3 other dark jokers count
+		center.ability.extra.Xmult_multi2
+		
       }
     }
   end,
@@ -550,12 +553,8 @@ local mega_absol = {
 	  if not context.end_of_round and context.scoring_hand then
 		if context.individual and context.cardarea == G.scry_view and not context.other_card.debuff then
 		  local bonus_count = self:count_other_dark_jokers(card)
-		  local mult_base = card.ability.extra.xmult_multi or 1.5
-		  local exponent = (bonus_count > 0) and bonus_count or 1
-		  local final_mult = mult_base ^ exponent
-
 		  return {
-			xmult = final_mult,
+			xmult = card.ability.extra.xmult_multi + (bonus_count * card.ability.extra.Xmult_multi2),
 			card = card
 		  }
 		end
