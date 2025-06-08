@@ -335,10 +335,224 @@ local mega_scizor = {
 }
 
 
+local barboach = {
+  name = "barboach",
+  poke_custom_prefix = "caninf",
+  pos = {x = 7, y = 8},
+
+  config = {extra = {scry = 1, retriggers = 1}},
+
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+	info_queue[#info_queue + 1] = G.P_CENTERS.c_poke_waterstone
+    info_queue[#info_queue + 1] = {set = 'Other', key = 'scry_cards'}
+    return {
+      vars = {
+        center.ability.extra.scry,
+        center.ability.extra.retriggers,
+      }
+    }
+  end,
+
+  rarity = 1,
+  cost = 5,
+  item_req = "waterstone",
+  stage = "Basic",
+  ptype = "Water",
+  atlas = "pokedex_3",
+  blueprint_compat = true,
+  eternal_compat = true,
+
+  calculate = function(self, card, context)
+
+	if context.repetition
+	  and context.cardarea == G.scry_view 
+	  and context.other_card == G.scry_view.cards[1] 
+	  and not context.other_card.debuff then
+
+	  return {
+		message = localize('k_again_ex'),
+		message_card = context.other_card,
+		repetitions = card.ability.extra.retriggers,
+		card = card
+	  }
+	end
+
+	return item_evo(self, card, context, "j_caninf_whiscash")
+  end,
+
+  add_to_deck = function(self, card, from_debuff)
+    G.GAME.scry_amount = (G.GAME.scry_amount or 0) + card.ability.extra.scry
+  end,
+
+  remove_from_deck = function(self, card, from_debuff)
+    G.GAME.scry_amount = math.max(0, (G.GAME.scry_amount or 0) - card.ability.extra.scry)
+  end,
+}
+
+
+
+
+local whiscash = {
+  name = "whiscash",
+  poke_custom_prefix = "caninf",
+  pos = {x = 8, y = 8},
+
+  config = {extra = {scry = 1, retriggers = 1}}, -- Now includes retriggers
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+    info_queue[#info_queue + 1] = {set = 'Other', key = 'scry_cards'}
+    return {
+      vars = {
+        center.ability.extra.scry,
+        center.ability.extra.retriggers
+      }
+    }
+  end,
+
+  rarity = "poke_safari",
+  cost = 6,
+  stage = "One",
+  ptype = "Water",
+  atlas = "pokedex_3",
+  blueprint_compat = true,
+  eternal_compat = true,
+
+  calculate = function(self, card, context)
+
+
+    if context.repetition and (next(context.card_effects[1]) or #context.card_effects > 1) and context.cardarea == G.scry_view and not context.other_card.debuff and (G.GAME.scry_amount or 0) > 5 then
+
+      -- You can show a message or visual cue for the retrigger here
+			return {
+			message = localize('k_again_ex'),  -- localized message like "Again!"
+			message_card = context.other_card,
+			repetitions = card.ability.extra.retriggers,                 -- signal one repetition count
+			card = card
+		}
+
+    end
+  end,
+
+  add_to_deck = function(self, card, from_debuff)
+    G.GAME.scry_amount = (G.GAME.scry_amount or 0) + card.ability.extra.scry
+  end,
+
+  remove_from_deck = function(self, card, from_debuff)
+    G.GAME.scry_amount = math.max(0, (G.GAME.scry_amount or 0) - card.ability.extra.scry)
+  end,
+ } 
+  
+local absol = {
+  name = "absol",
+  poke_custom_prefix = "caninf",
+  pos = {x = 0, y = 11},
+
+  config = {
+    extra = { scry = 2, xmult_multi = 1.5, interval = 2 }
+  },
+
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+    info_queue[#info_queue + 1] = {set = 'Other', key = 'scry_cards'}
+    return {
+      vars = {
+        center.ability.extra.scry,
+        center.ability.extra.xmult_multi
+      }
+    }
+  end,
+
+  rarity = 3,
+  cost = 10,
+  stage = "Basic",
+  ptype = "Dark",
+  atlas = "pokedex_3",
+  blueprint_compat = true,
+  eternal_compat = true,
+
+  calculate = function(self, card, context)
+    if not context.end_of_round and context.scoring_hand then
+      if context.individual and context.cardarea == G.scry_view and not context.other_card.debuff and (G.GAME.scry_amount or 0) >= card.ability.extra.interval then
+        local score = false
+        for i = card.ability.extra.interval, (G.GAME.scry_amount or 0), card.ability.extra.interval do
+          if G.scry_view.cards[i] == context.other_card then
+            score = true
+            break
+          end
+        end
+        if score then  
+          return {
+            xmult = card.ability.extra.xmult_multi,
+            card = card
+          }
+        end
+      end
+    end
+  end,
+  
+  add_to_deck = function(self, card, from_debuff)
+    G.GAME.scry_amount = (G.GAME.scry_amount or 0) + card.ability.extra.scry
+  end,
+
+  remove_from_deck = function(self, card, from_debuff)
+    G.GAME.scry_amount = math.max(0, (G.GAME.scry_amount or 0) - card.ability.extra.scry)
+  end,
+  megas={"mega_absol"}
+}
+
+local mega_absol = {
+  name = "mega_absol",
+  poke_custom_prefix = "caninf",
+  pos = {x = 2, y = 4},
+  soul_pos = {x = 3, y = 4},
+
+  config = {
+    extra = { scry = 2, xmult_multi = 1.5}
+  },
+
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+    info_queue[#info_queue + 1] = {set = 'Other', key = 'scry_cards'}
+    return {
+      vars = {
+        center.ability.extra.scry,
+        center.ability.extra.xmult_multi
+      }
+    }
+  end,
+
+  rarity = "poke_mega",
+  cost = 12,
+  stage = "Mega",
+  ptype = "Dark",
+  atlas = "Megas_CI",
+  blueprint_compat = true,
+  eternal_compat = false,
+
+  calculate = function(self, card, context)
+    if not context.end_of_round and context.scoring_hand then
+      if context.individual and context.cardarea == G.scry_view and not context.other_card.debuff then
+          return {
+            xmult = card.ability.extra.xmult_multi,
+            card = card
+          }
+      end
+    end
+  end,
+  
+  add_to_deck = function(self, card, from_debuff)
+    G.GAME.scry_amount = (G.GAME.scry_amount or 0) + card.ability.extra.scry
+  end,
+
+  remove_from_deck = function(self, card, from_debuff)
+    G.GAME.scry_amount = math.max(0, (G.GAME.scry_amount or 0) - card.ability.extra.scry)
+  end,
+}
 
 -- Export the joker
 local list = {
-    scyther, scizor , kleavor , mega_scizor
+    scyther, scizor , kleavor , mega_scizor,  barboach, whiscash, absol, mega_absol
 }
 
 return {name = "Maltay's CanInf", list = list}

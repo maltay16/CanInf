@@ -93,6 +93,9 @@ SMODS.Atlas({
 
 
 table.insert(family, {"scyther", "kleavor" ,"scizor","mega_scizor"})
+table.insert(family, {"barboach, whiscash"})
+table.insert(family, {"absol, mega_absol"})
+
 
 maltay_config = SMODS.current_mod.config
 mod_dir = ''..SMODS.current_mod.path
@@ -101,6 +104,13 @@ if (SMODS.Mods["Pokermon"] or {}).can_load then
 end
 
 
+
+
+if lovely and lovely.log then
+    lovely.log(" Lovely is working")
+else
+    print("Lovely not loaded yet")
+end
 
 -- Get mod path and load other files
 mod_dir = ''..SMODS.current_mod.path
@@ -169,5 +179,8 @@ if (SMODS.Mods["Pokermon"] or {}).can_load and SMODS.Mods["Pokermon"] then
     end
   end
 end 
+
+print("DEBUG: main.lua loaded")
+
 --doesnt work right now, ill figure it out later.
 --local function replace_specific_jokers_with_random()

@@ -1,6 +1,43 @@
 return {
     descriptions = {
         Joker = {
+			j_caninf_whiscash = {
+				name = "Whiscash",
+				text = {
+					"{C:purple}+#1# Foresight",
+					"Retrigger all {C:attention}Foreseen{} cards {C:attention}#2#{} times",
+					"if you have more than {C:attention}5{} {C:purple}Foresight{}."
+				}
+			},
+			
+			j_caninf_barboach = {
+				name = "Barboach",
+				text = {
+					"{C:purple}+#1# Foresight",
+					"Retrigger first {C:attention}Foreseen{} card {C:attention}#2#{} time",
+				}
+			},
+			
+			j_caninf_absol = {
+				name = "Absol",
+				text = {
+					"{C:purple}+#1# Foresight",
+					"Every {C:attention}second{} card {C:attention}Foreseen{}",
+					" gives {X:mult,C:white}X#2#{} Mult",
+				}
+			},
+			
+			j_caninf_mega_absol = {
+				name = "Mega Absol",
+				text = {
+					"{C:purple}+#1# Foresight",
+					"Every card {C:attention}Foreseen{}",
+					" gives {X:mult,C:white}X#2#{} Mult",
+				}
+			},
+			
+			
+
 			j_caninf_scyther = {
                 name = 'Scyther',      
                 text = {
