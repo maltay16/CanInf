@@ -5,7 +5,7 @@ return {
 				name = "Whiscash",
 				text = {
 					"{C:purple}+#1# Foresight",
-					"Retrigger all {C:attention}Foreseen{} cards {C:attention}#2#{} times",
+					"Retrigger all {C:attention}Foreseen{} cards {C:attention}#2#{} time",
 					"if you have more than {C:attention}5{} {C:purple}Foresight{}."
 				}
 			},
@@ -31,8 +31,8 @@ return {
 				name = "Mega Absol",
 				text = {
 					"{C:purple}+#1# Foresight",
-					"Every card {C:attention}Foreseen{}",
-					" gives {X:mult,C:white}X#2#{} Mult",
+					"{C:attention}Foreseen{} cards",
+					" give {X:mult,C:white}X#2#{} Mult",
 				}
 			},
 			
