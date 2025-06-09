@@ -93,8 +93,8 @@ SMODS.Atlas({
 
 
 table.insert(family, {"scyther", "kleavor" ,"scizor","mega_scizor"})
-table.insert(family, {"barboach, whiscash"})
-table.insert(family, {"absol, mega_absol"})
+table.insert(family, {"barboach", "whiscash"})
+table.insert(family, {"absol", "mega_absol"})
 
 
 maltay_config = SMODS.current_mod.config
