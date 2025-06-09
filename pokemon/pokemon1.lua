@@ -355,7 +355,7 @@ local barboach = {
   end,
 
   rarity = 1,
-  cost = 5,
+  cost = 4,
   item_req = "waterstone",
   stage = "Basic",
   ptype = "Water",
@@ -411,7 +411,7 @@ local whiscash = {
   end,
 
   rarity = "poke_safari",
-  cost = 6,
+  cost = 7,
   stage = "One",
   ptype = "Water",
   atlas = "pokedex_3",
@@ -587,7 +587,7 @@ local spinda = {
     return {vars = {}}
   end,
   rarity = 2,
-  cost = 6,
+  cost = 5,
   stage = "Basic",
   ptype = "Normal",
   atlas = "pokedex_3",
