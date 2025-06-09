@@ -11,6 +11,8 @@ The priority for this mod is to add more variety to high ante runs by introducin
 | Whiscash |Retriggers all foreseen cards if you have more than 5 foresight, +1 foresight |
 | Absol   | Every second foreseen card gives 1.5x mult |
 | Mega Absol   | Foreseen cards give 1.5x mult + 0.25 for each other Dark joker|
+| Spinda  | Doubles or halves the energize compatible values of leftmost joker when sold|
+
 
 
 
