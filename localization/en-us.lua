@@ -36,8 +36,8 @@ return {
 				name = "Absol",
 				text = {
 					"{C:purple}+#1# Foresight",
-					"Every {C:attention}second{} card {C:attention}Foreseen{}",
-					" gives {X:mult,C:white}X#2#{} Mult",
+					"{C:attention}Foreseen{} cards",
+					" give {X:mult,C:white}X#2#{} Mult",
 				}
 			},
 			

@@ -449,7 +449,7 @@ local absol = {
   pos = {x = 0, y = 11},
 
   config = {
-    extra = { scry = 2, Xmult_multi = 1.5, interval = 2 }
+    extra = { scry = 2, Xmult = 1.5}
   },
 
   loc_vars = function(self, info_queue, center)
@@ -458,7 +458,7 @@ local absol = {
     return {
       vars = {
         center.ability.extra.scry,
-        center.ability.extra.Xmult_multi
+        center.ability.extra.Xmult
       }
     }
   end,
@@ -472,23 +472,14 @@ local absol = {
   eternal_compat = true,
 
   calculate = function(self, card, context)
-    if not context.end_of_round and context.scoring_hand then
-      if context.individual and context.cardarea == G.scry_view and not context.other_card.debuff and (G.GAME.scry_amount or 0) >= card.ability.extra.interval then
-        local score = false
-        for i = card.ability.extra.interval, (G.GAME.scry_amount or 0), card.ability.extra.interval do
-          if G.scry_view.cards[i] == context.other_card then
-            score = true
-            break
-          end
-        end
-        if score then  
-          return {
-            xmult = card.ability.extra.Xmult_multi,
-            card = card
-          }
-        end
-      end
-    end
+	  if not context.end_of_round and context.scoring_hand then
+		if context.individual and context.cardarea == G.scry_view and not context.other_card.debuff then
+		  return {
+			Xmult = card.ability.extra.Xmult,
+			card = card
+		  }
+		end
+	  end
   end,
   
   add_to_deck = function(self, card, from_debuff)
