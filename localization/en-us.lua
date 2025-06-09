@@ -1,6 +1,19 @@
 return {
     descriptions = {
         Joker = {
+		
+			j_caninf_spinda = {
+				name = "Spinda",
+				text = {
+					"Sell this to {c:attention}double",
+					"or {C:attention}halve{} {C:pink}Energize{} compatible",
+					"values of your leftmost Joker",
+				}
+			},		
+		
+		
+		
+		
 			j_caninf_whiscash = {
 				name = "Whiscash",
 				text = {

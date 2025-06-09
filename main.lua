@@ -95,6 +95,7 @@ SMODS.Atlas({
 table.insert(family, {"scyther", "kleavor" ,"scizor","mega_scizor"})
 table.insert(family, {"barboach", "whiscash"})
 table.insert(family, {"absol", "mega_absol"})
+table.insert(family, {"spinda"})
 
 
 maltay_config = SMODS.current_mod.config
@@ -180,6 +181,40 @@ if (SMODS.Mods["Pokermon"] or {}).can_load and SMODS.Mods["Pokermon"] then
   end
 end 
 
+SMODS.Joker:take_ownership('poke_scyther', -- object key (class prefix not required)
+    { -- table of properties to change from the existing object
+	in_pool = function(self)
+		return false
+    end,
+		-- more on this later
+
+    },
+    true -- silent | suppresses mod badge
+)
+
+
+SMODS.Joker:take_ownership('poke_scizor', -- object key (class prefix not required)
+    { -- table of properties to change from the existing object
+	in_pool = function(self)
+		return false
+    end,
+		-- more on this later
+
+    },
+   true -- silent | suppresses mod badge
+)
+
+
+SMODS.Joker:take_ownership('poke_kleavor', -- object key (class prefix not required)
+    { -- table of properties to change from the existing object
+	in_pool = function(self)
+		return false
+    end,
+		-- more on this later
+
+    },
+   true -- silent | suppresses mod badge
+)
 print("DEBUG: main.lua loaded")
 
 --doesnt work right now, ill figure it out later.

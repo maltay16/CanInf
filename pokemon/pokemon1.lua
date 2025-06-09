@@ -508,7 +508,7 @@ local mega_absol = {
   soul_pos = {x = 3, y = 4},
 
   config = {
-    extra = { scry = 2, scry_plus= 0, xmult_multi = 1.5 , Xmult_multi2=0.25 }
+    extra = { scry = 2, scry_plus= 0, Xmult = 1.5 , Xmult_multi=0.25 }
   },
 
   loc_vars = function(self, info_queue, center)
@@ -517,14 +517,14 @@ local mega_absol = {
 
     local base_scry = center.ability.extra.scry or 0
     local scry_plus = self:count_other_dark_jokers(center) or 0
-	local bonus_mult =  center.ability.extra.Xmult_multi2*scry_plus
+	local bonus_mult =  center.ability.extra.Xmult_multi*scry_plus
 
     return {
       vars = {
         base_scry,                          -- #1 base scry
-        center.ability.extra.xmult_multi,  -- #2 multiplier
+        center.ability.extra.Xmult,  -- #2 multiplier
         bonus_mult,                      -- #3 other dark jokers count
-		center.ability.extra.Xmult_multi2
+		center.ability.extra.Xmult_multi
 		
       }
     }
@@ -554,7 +554,7 @@ local mega_absol = {
 		if context.individual and context.cardarea == G.scry_view and not context.other_card.debuff then
 		  local bonus_count = self:count_other_dark_jokers(card)
 		  return {
-			xmult = card.ability.extra.xmult_multi + (bonus_count * card.ability.extra.Xmult_multi2),
+			xmult = card.ability.extra.xmult + (bonus_count * card.ability.extra.Xmult_multi),
 			card = card
 		  }
 		end
@@ -573,9 +573,69 @@ local mega_absol = {
 }
 
 
+local spinda = {
+  name = "spinda",
+  poke_custom_prefix = "caninf",
+  pos = {x = 5, y = 7},
+
+  config = {
+    extra = {}
+  },
+  loc_vars = function(self, info_queue, center)
+    type_tooltip(self, info_queue, center)
+    info_queue[#info_queue+1] = {set = 'Other', key = 'energize'}
+    return {vars = {}}
+  end,
+  rarity = 2,
+  cost = 6,
+  stage = "Basic",
+  ptype = "Normal",
+  atlas = "pokedex_3",
+  blueprint_compat = true,
+  eternal_compat = false,
+
+  calculate = function(self, card, context)
+    local function random_halve_or_double(value)
+      if math.random() < 0.5 then
+        return value / 2
+      else
+        return value * 2
+      end
+    end
+
+    if context.selling_self and not context.blueprint then
+      local leftmost = G.jokers.cards[1]
+      if leftmost and leftmost ~= card then
+        local ability = leftmost.ability
+        local keys = {
+          "mult", "mult1", "mult2", "mult_mod", "mult_mod2",
+          "Xmult", "Xmult1", "Xmult2", "Xmult_multi", "Xmult_multi2",
+          "Xmult_mod", "chips", "money", "money2", "money_mod"
+        }
+
+        for _, key in ipairs(keys) do
+          if card and card.config and card.config.extra and card.config.extra[key] and type(card.config.extra[key]) == "number" and card.config.extra[key] > 0 then
+            card.config.extra[key] = random_halve_or_double(card.config.extra[key])
+          elseif ability and ability.extra and ability.extra[key] and type(ability.extra[key]) == "number" and ability.extra[key] > 0 then
+            ability.extra[key] = random_halve_or_double(ability.extra[key])
+          end
+        end
+
+        if leftmost.show_status_text then
+          leftmost:show_status_text("Spinda effect triggered! Multipliers randomly changed.")
+        end
+      end
+    end
+  end,
+}
+
+
+
+
+
 -- Export the joker
 local list = {
-    scyther, scizor , kleavor , mega_scizor,  barboach, whiscash, absol, mega_absol
+    scyther, scizor , kleavor , mega_scizor,  barboach, whiscash, absol, mega_absol, spinda
 }
 
 return {name = "Maltay's CanInf", list = list}
