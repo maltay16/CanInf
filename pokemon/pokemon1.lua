@@ -658,7 +658,8 @@ local spinda = {
 
 -- Export the joker
 local list = {
-    scyther, scizor , kleavor , mega_scizor,  barboach, whiscash, absol, mega_absol, spinda
+	scyther, scizor , kleavor , 
+	mega_scizor,  barboach, whiscash, absol, mega_absol, spinda
 }
 
 return {name = "Maltay's CanInf", list = list}
