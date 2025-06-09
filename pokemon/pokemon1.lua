@@ -449,7 +449,7 @@ local absol = {
   pos = {x = 0, y = 11},
 
   config = {
-    extra = { scry = 2, xmult_multi = 1.5, interval = 2 }
+    extra = { scry = 2, Xmult_multi = 1.5, interval = 2 }
   },
 
   loc_vars = function(self, info_queue, center)
@@ -458,7 +458,7 @@ local absol = {
     return {
       vars = {
         center.ability.extra.scry,
-        center.ability.extra.xmult_multi
+        center.ability.extra.Xmult_multi
       }
     }
   end,
@@ -483,7 +483,7 @@ local absol = {
         end
         if score then  
           return {
-            xmult = card.ability.extra.xmult_multi,
+            xmult = card.ability.extra.Xmult_multi,
             card = card
           }
         end
@@ -554,7 +554,7 @@ local mega_absol = {
 		if context.individual and context.cardarea == G.scry_view and not context.other_card.debuff then
 		  local bonus_count = self:count_other_dark_jokers(card)
 		  return {
-			xmult = card.ability.extra.xmult + (bonus_count * card.ability.extra.Xmult_multi),
+			Xmult = card.ability.extra.Xmult + (bonus_count * card.ability.extra.Xmult_multi),
 			card = card
 		  }
 		end
@@ -595,37 +595,69 @@ local spinda = {
   eternal_compat = false,
 
   calculate = function(self, card, context)
-    local function random_halve_or_double(value)
-      if math.random() < 0.5 then
-        return value / 2
-      else
-        return value * 2
-      end
-    end
+	  local function box_muller()
+		  local u1 = math.random()
+		  local u2 = math.random()
+		  local z0 = math.sqrt(-2 * math.log(u1)) * math.cos(2 * math.pi * u2)
+		  return z0
+		end
 
-    if context.selling_self and not context.blueprint then
-      local leftmost = G.jokers.cards[1]
-      if leftmost and leftmost ~= card then
-        local ability = leftmost.ability
-        local keys = {
-          "mult", "mult1", "mult2", "mult_mod", "mult_mod2",
-          "Xmult", "Xmult1", "Xmult2", "Xmult_multi", "Xmult_multi2",
-          "Xmult_mod", "chips", "money", "money2", "money_mod"
-        }
+	  local function clamp(x, min_val, max_val)
+		  if x < min_val then return min_val end
+		  if x > max_val then return max_val end
+		  return x
+		end
 
-        for _, key in ipairs(keys) do
-          if card and card.config and card.config.extra and card.config.extra[key] and type(card.config.extra[key]) == "number" and card.config.extra[key] > 0 then
-            card.config.extra[key] = random_halve_or_double(card.config.extra[key])
-          elseif ability and ability.extra and ability.extra[key] and type(ability.extra[key]) == "number" and ability.extra[key] > 0 then
-            ability.extra[key] = random_halve_or_double(ability.extra[key])
-          end
-        end
+	--  function random_multiplier()
+		  -- 50% chance pick left or right peak
+		 -- local center = math.random() < 0.5 and 0.75 or 1.25
+	--	   Stddev controls spread around peaks
+	--	  local stddev = 0.15
+	--	  local sample = center + stddev * box_muller()
+	--	  sample = clamp(sample, 0.1, 10)
+	--	  return sample
+	--	end
+		local function random_multiplier(value)
+		  if math.random() < 0.5 then
+			return value / 2
+		  else
+			return value * 2
+		  end
+		end
 
-        if leftmost.show_status_text then
-          leftmost:show_status_text("Spinda effect triggered! Multipliers randomly changed.")
-        end
-      end
-    end
+	  if context.selling_self and not context.blueprint then
+		local leftmost = G.jokers.cards[1]
+		if leftmost and leftmost ~= card then
+		  local ability = leftmost.ability
+		  local keys = {
+			"mult", "mult1", "mult2", "mult_mod", "mult_mod2",
+			"Xmult", "Xmult1", "Xmult2", "Xmult_multi", "Xmult_multi2",
+			"Xmult_mod", "chips", "money", "money2", "money_mod"
+		  }
+
+--		  for _, key in ipairs(keys) do
+--			if card and card.config and card.config.extra and card.config.extra[key]
+--			   and type(card.config.extra[key]) == "number" and card.config.extra[key] > 0 then
+--			  card.config.extra[key] = random_multiplier()
+--			elseif ability and ability.extra and ability.extra[key]
+--			   and type(ability.extra[key]) == "number" and ability.extra[key] > 0 then
+--			  ability.extra[key] = random_multiplier()
+--			end
+--		  end
+
+		for _, key in ipairs(keys) do
+		  if card and card.config and card.config.extra and card.config.extra[key] and type(card.config.extra[key]) == "number" and card.config.extra[key] > 0 then
+			card.config.extra[key] = random_multiplier(card.config.extra[key])
+		  elseif ability and ability.extra and ability.extra[key] and type(ability.extra[key]) == "number" and ability.extra[key] > 0 then
+			ability.extra[key] = random_multiplier(ability.extra[key])
+		  end
+		end
+
+		if leftmost.show_status_text then
+			leftmost:show_status_text("Spinda effect triggered! Multipliers randomly changed.")
+		  end
+		end
+	  end
   end,
 }
 
