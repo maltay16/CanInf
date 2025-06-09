@@ -12,6 +12,5 @@ The priority for this mod is to add more variety to high ante runs by introducin
 | Absol   | Every second foreseen card gives 1.5x mult |
 | Mega Absol   | Foreseen cards give 1.5x mult + 0.25 for each other Dark joker|
 
-##Current issues / Disclaimer
-The original scyther line isn't removed, scyther and scizor cant evolve into mega scizor if they are the original versions.
+
 
