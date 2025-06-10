@@ -92,7 +92,7 @@ SMODS.Atlas({
 }):register()
 
 
-table.insert(family, {"scyther","kleavor","scizor","mega_scizor"})
+table.insert(family, {"scyther", "kleavor" ,"scizor","mega_scizor"})
 table.insert(family, {"barboach", "whiscash"})
 table.insert(family, {"absol", "mega_absol"})
 table.insert(family, {"spinda"})
@@ -183,50 +183,47 @@ end
 
 SMODS.Joker:take_ownership('poke_scyther', -- object key (class prefix not required)
     { -- table of properties to change from the existing object
-	poke_custom_prefix = "caninf",
 	aux_poke = true,
     no_collection = true,
-	custom_pool_func = true,
-	in_pool = function(self)
-		return false
-    end,
+    custom_pool_func = true,
+    in_pool = function(self)
+        return false
+    end, 
 		-- more on this later
 
     },
-    false -- silent | suppresses mod badge
+    true -- silent | suppresses mod badge
 )
 
 
 SMODS.Joker:take_ownership('poke_scizor', -- object key (class prefix not required)
     { -- table of properties to change from the existing object
-	poke_custom_prefix = "caninf",
+	megas={"mega_scizor"},
 	aux_poke = true,
     no_collection = true,
-	megas={"mega_scizor"},
-	custom_pool_func = true,
-	in_pool = function(self)
-		return false
+    custom_pool_func = true,
+    in_pool = function(self)
+        return false
     end,
 		-- more on this later
 
     },
-   false -- silent | suppresses mod badge
+   true -- silent | suppresses mod badge
 )
 
 
 SMODS.Joker:take_ownership('poke_kleavor', -- object key (class prefix not required)
     { -- table of properties to change from the existing object
-	poke_custom_prefix = "caninf",
 	aux_poke = true,
     no_collection = true,
-	custom_pool_func = true,
-	in_pool = function(self)
-		return false
+    custom_pool_func = true,
+    in_pool = function(self)
+        return false
     end,
 		-- more on this later
 
     },
-   false -- silent | suppresses mod badge
+   true -- silent | suppresses mod badge
 )
 print("DEBUG: main.lua loaded")
 
