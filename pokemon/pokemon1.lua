@@ -245,26 +245,48 @@ local mega_scizor = {
 	loc_vars = function(self, info_queue, center)
 		type_tooltip(self, info_queue, center)
 
-		local sliced_negative = center.ability.extra.sliced_negative or 0
-		local sliced_normal = center.ability.extra.sliced_normal or 0
+
+		local sliced_negative = center.ability.sliced_negative or 0
+		local sliced_normal = center.ability.sliced_normal or 0
 		local Xmult_multi = center.ability.extra.Xmult_multi or 1.25
 		local Xmult_multi_neg = Xmult_multi * 1.4
-		local sliced_total = sliced_negative + sliced_normal
+		center.ability.extra.Xmult_multi_neg = Xmult_multi_neg
 		local Xmult = (1 * (Xmult_multi ^ sliced_normal)) * (Xmult_multi_neg ^ sliced_negative)
-
+		
 		return {
 			vars = {
-				sliced_total,
-				sliced_negative,
-				Xmult,
-				Xmult_multi,
-				Xmult_multi_neg
+				center.ability.extra.sliced_total,
+				center.ability.extra.sliced_negative,
+				center.ability.extra.Xmult,
+				center.ability.extra.Xmult_multi,
+				center.ability.extra.Xmult_multi_neg
 			}
 		}
 	end,
 
 	calculate = function(self, card, context)
 		local extra = card.ability.extra
+
+		-- Extract values from `extra`
+		local sliced_negative = extra.sliced_negative or 0
+		local sliced_normal = extra.sliced_normal or 0
+		local Xmult_multi = extra.Xmult_multi or 1.25
+		local Xmult_multi_neg = Xmult_multi * 1.4
+		local Xmult = (1 * (Xmult_multi ^ sliced_normal)) * (Xmult_multi_neg ^ sliced_negative)
+
+		-- Update extra.Xmult so it's available for UI/debug
+		extra.Xmult = Xmult
+
+		-- Return scoring multiplier if relevant
+		if context.cardarea == G.jokers and context.scoring_hand then
+			if context.joker_main then
+				return {
+					message = localize{type = 'variable', key = 'a_xmult', vars = {extra.Xmult}}, 
+					colour = G.C.XMULT,
+					Xmult_mod = card.ability.extra.Xmult
+				}
+			end
+		end
 
 		-- Define family members once
 		local family_keys = {
@@ -658,8 +680,7 @@ local spinda = {
 
 -- Export the joker
 local list = {
-	scyther, scizor , kleavor , 
-	mega_scizor,  barboach, whiscash, absol, mega_absol, spinda
+    scyther, scizor , kleavor , mega_scizor,  barboach, whiscash, absol, mega_absol, spinda
 }
 
 return {name = "Maltay's CanInf", list = list}
