@@ -12,6 +12,7 @@ The priority for this mod is to add more variety to high ante runs by introducin
 | Absol   | Foreseen cards give  1.5x mult |
 | Mega Absol   | Foreseen cards give 1.5x mult + 0.25 for each other Dark joker|
 | Spinda  | Doubles or halves the energize compatible values of leftmost joker when sold|
+| Marshadow | Creates a random negative perishable joker with the same rarity of your leftmost joker |
 
 
 
