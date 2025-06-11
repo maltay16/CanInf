@@ -674,13 +674,138 @@ local spinda = {
   end,
 }
 
+-- Weak-keyed registry for all spawned jokers by marshadow instance
+local spawned_jokers_registry = setmetatable({}, { __mode = "k" })
+
+local marshadow = {
+    name = "marshadow",
+    poke_custom_prefix = "caninf",
+    atlas = "pokedex_7",
+    pos = {x = 5, y = 8},
+    soul_pos = {x = 6, y = 8},
+
+    rarity = 4, -- Legendary
+    cost = 20,
+    stage = "Legendary",
+    ptype = "Fighting",
+
+    eternal_compat = false,
+    blueprint_compat = false,
+
+    -- Register a joker for this marshadow instance
+    register_spawned_joker = function(self, joker)
+        if not spawned_jokers_registry[self] then
+            spawned_jokers_registry[self] = {}
+        end
+        table.insert(spawned_jokers_registry[self], joker)
+    end,
+
+    -- Get all spawned jokers for this marshadow instance
+    get_spawned_jokers = function(self)
+        return spawned_jokers_registry[self] or {}
+    end,
+
+    -- Clear all spawned jokers tracked for this marshadow instance
+    clear_spawned_jokers = function(self)
+        spawned_jokers_registry[self] = nil
+    end,
+
+    loc_vars = function(self, info_queue, center)
+        type_tooltip(self, info_queue, center)
+        info_queue[#info_queue+1] = G.P_CENTERS.e_negative
+        return {vars = {}}
+    end,
+
+    calculate = function(self, card, context)
+        -- No internal storage of spawned jokers here! Always use registry.
+
+        -- Spawn a new shadow Joker when setting a blind
+        if context.setting_blind then
+            local leftmost = G.jokers.cards[1]
+            if not leftmost or not leftmost.config or not leftmost.config.center then return end
+            local rarity = leftmost.config.center.rarity
+            if not rarity then return end
+
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.4,
+                func = function()
+                    play_sound('timpani')
+                    local _card = create_random_poke_joker("marshadow", nil, rarity)
+                    local edition = {negative = true}
+                    _card:set_eternal(false)
+                    _card.ability.perishable = true
+                    _card.ability.perish_tally = 2
+                    _card:set_edition(edition, true)
+                    _card._is_temp_marshadow = true
+
+                    if not _card.ability.extra then _card.ability.extra = {} end
+                    _card.ability.extra.rounds = 1
+
+                    _card:add_to_deck()
+                    G.jokers:emplace(_card)
+
+                    -- Register joker externally
+                    self:register_spawned_joker(_card)
+
+                    card_eval_status_text(card, "extra", nil, nil, nil, {
+                        message = "Shadow!",
+                        colour = G.C.BLACK
+                    })
+
+                    return true
+                end
+            }))
+        end
+
+        -- Decrement rounds of all spawned jokers when setting blind
+        if context.setting_blind then
+            local jokers = self:get_spawned_jokers()
+            for i = #jokers, 1, -1 do
+                local joker = jokers[i]
+                if joker and joker.ability and joker.ability.extra then
+                    joker.ability.extra.rounds = (joker.ability.extra.rounds or 1) - 1
+                end
+            end
+        end
+
+        -- Remove jokers whose rounds expired at end of round
+        if context.end_of_round then
+            local jokers = self:get_spawned_jokers()
+            for i = #jokers, 1, -1 do
+                local joker = jokers[i]
+                local rounds = joker and joker.ability and joker.ability.extra and joker.ability.extra.rounds or 1
+                if rounds <= 0 and joker and not joker.ability.eternal then
+                    G.E_MANAGER:add_event(Event({
+                        func = function()
+                            if joker then
+                                remove(self, joker, context)
+                            end
+                            return true
+                        end
+                    }))
+
+                    -- Remove from registry
+                    table.remove(jokers, i)
+                end
+            end
+
+            -- If no more jokers, clear registry for this marshadow
+            local remaining = self:get_spawned_jokers()
+            if #remaining == 0 then
+                self:clear_spawned_jokers()
+            end
+        end
+    end,
+}
+
 
 
 
 
 -- Export the joker
 local list = {
-    scyther, scizor , kleavor , mega_scizor,  barboach, whiscash, absol, mega_absol, spinda
+    scyther, scizor , kleavor , mega_scizor,  barboach, whiscash, absol, mega_absol, spinda, marshadow
 }
 
 return {name = "Maltay's CanInf", list = list}

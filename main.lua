@@ -91,11 +91,26 @@ SMODS.Atlas({
   py = 95
 }):register()
 
+SMODS.Atlas({
+  key = "pokedex_7",
+  path = "pokedex_7.png",
+  px = 71,
+  py = 95
+}):register()
+
+SMODS.Atlas({
+  key = "shiny_pokedex_7",
+  path = "shiny_pokedex_7.png",
+  px = 71,
+  py = 95
+}):register()
+
 
 table.insert(family, {"scyther", "kleavor" ,"scizor","mega_scizor"})
 table.insert(family, {"barboach", "whiscash"})
 table.insert(family, {"absol", "mega_absol"})
 table.insert(family, {"spinda"})
+table.insert(family, {"marshadow"})
 
 
 maltay_config = SMODS.current_mod.config

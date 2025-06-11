@@ -10,8 +10,17 @@ return {
 					"values of your leftmost Joker",
 				}
 			},		
-		
-		
+			
+			j_caninf_marshadow = {
+				  name = "Marshadow",
+				  text = {
+					"When Blind is selected, create",
+					"a random {C:dark_edition}Negative{} Joker matching",
+					"the rarity of your leftmost Joker.",
+					"Created Joker is removed after {C:attention}1{} round."
+				  }
+				},
+						
 		
 		
 			j_caninf_whiscash = {
