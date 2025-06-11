@@ -690,7 +690,7 @@ local marshadow = {
     ptype = "Fighting",
 
     eternal_compat = false,
-    blueprint_compat = false,
+    blueprint_compat = true,
 
     -- Register a joker for this marshadow instance
     register_spawned_joker = function(self, joker)
