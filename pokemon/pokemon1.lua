@@ -718,7 +718,7 @@ local marshadow = {
 
     calculate = function(self, card, context)
         -- No internal storage of spawned jokers here! Always use registry.
-
+		if G.jokers.cards[1] == card then return end
         -- Spawn a new shadow Joker when setting a blind
         if context.setting_blind then
             local leftmost = G.jokers.cards[1]

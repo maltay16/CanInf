@@ -17,7 +17,8 @@ return {
 					"When Blind is selected, create",
 					"a random {C:dark_edition}Negative{} Joker matching",
 					"the rarity of your leftmost Joker.",
-					"Created Joker is removed after {C:attention}1{} round."
+					"Created Joker is removed after {C:attention}1{} round.",
+					"{C:inactive}(Can't match itself)",
 				  }
 				},
 						
